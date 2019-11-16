@@ -1,32 +1,11 @@
 <?php
+    include('includes/classes/Account.php');
 
-    function sanitizeFormInput($formInput) {
-        switch ($formInput) {
-            case "username":
-                $formInput = strip_tags($formInput);
-                $formInput = str_replace(" ", "", $formInput);
-                return $formInput;
-                break;
-            case "firstName":
-                $formInput = strip_tags($formInput);
-                $formInput = str_replace(" ", "", $formInput);
-                $formInput = ucfirst(strtolower($formInput));
-                return $formInput;
-                break;
-        }
-    }
+    $account = new Account();
 
-    if (isset($_POST["submitLogin"])) {
-        // If login button was pressed
-    }
+    include('includes/handlers/register-handler.php');
+    include('includes/handlers/login-handler.php');
 
-    if (isset($_POST["submitSignUp"])) {
-        // If resgister button was pressed
-        $username = sanitizeFormInput($_POST["username"]);
-        $firstName = sanitizeFormInput($_POST["firstName"]);
-        echo $firstName;
-
-    }
 ?>
 
 <html lang="en">
@@ -60,38 +39,46 @@
         <form action="register.php" method="post">
             <h2>New? Register.</h2>
             <div class="form-group">
+                <?php echo $account->getError('Your username must be between 5 and 25 characters.'); ?>
                 <label for="usernameInput">Username</label>
-                <input type="text" name="username" class="form-control" id="usernameInput" aria-describedby="emailHelp" placeholder="Enter username" required>
+                <input type="text" name="userName" class="form-control" id="usernameInput" aria-describedby="emailHelp" placeholder="Enter username" required>
             </div>
             <div class="form-group">
                 <div class="row">
                     <div class="col-md-6">
+                        <?php echo $account->getError('Your first name must be between 2 and 25 characters.'); ?>
                         <label for="firstNameInput"></label>
                         <input class="form-control" type="text" name="firstName" id="firstNameInput" placeholder="First name">
                     </div>
                     <div class="col-md-6">
+                        <?php echo $account->getError('Your last name must be between 2 and 25 characters.'); ?>
                         <label for="surnameInput"></label>
-                        <input class="form-control" type="text" name="surnameInput" id="surnameInput" placeholder="Surname">
+                        <input class="form-control" type="text" name="lastName" id="surnameInput" placeholder="Surname">
                     </div>
                 </div>
             </div>
             <div class="form-group">
+            <?php echo $account->getError('Your email and confirm email must be the same.'); ?>
+            <?php echo $account->getError('Your email is inivalid.'); ?>
                 <label for="exampleInputEmail2">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail2" aria-describedby="emailHelp" placeholder="Enter email" required>
+                <input type="email" class="form-control" id="exampleInputEmail2" name="email1" aria-describedby="emailHelp" placeholder="Enter email" required>
                 <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
             </div>
             <div class="form-group">
                 <label for="confirmEmail">Confirm Email</label>
-                <input type="email" class="form-control" id="confirmEmail" aria-describedby="emailHelp" placeholder="Enter email" required>
+                <input type="email" class="form-control" id="confirmEmail" name="email2" aria-describedby="emailHelp" placeholder="Enter email" required>
                 <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
             </div>
             <div class="form-group">
+                <?php echo $account->getError("Your passwords don't match ivalid."); ?>
+                <?php echo $account->getError('Your password can only contain numbers and letters.'); ?>
+                <?php echo $account->getError('Your password must be between 5 and 30 characters.'); ?>
                 <label for="password1">Password</label>
-                <input type="password" class="form-control" id="password1" placeholder="Password" required>
+                <input type="password" class="form-control" name="password1" id="password1" placeholder="Password" required>
             </div>
             <div class="form-group">
                 <label for="password2">Confirm Password</label>
-                <input type="password" class="form-control" id="password2" placeholder="Confirm Password" required>
+                <input type="password" class="form-control" name="password2" id="password2" placeholder="Confirm Password" required>
             </div>
             <button type="submit" name="submitSignUp" class="btn btn-primary">Sign Up</button>
         </form>
