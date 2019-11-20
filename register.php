@@ -1,10 +1,18 @@
 <?php
+    include('includes/config.php');
     include('includes/classes/Account.php');
+    include('includes/classes/Constants.php');
 
     $account = new Account();
 
     include('includes/handlers/register-handler.php');
     include('includes/handlers/login-handler.php');
+
+    function getInputValue($name) {
+        if(isset($_POST[$name])) {
+            echo $_POST[$name];
+        }
+    }
 
 ?>
 
@@ -39,40 +47,40 @@
         <form action="register.php" method="post">
             <h2>New? Register.</h2>
             <div class="form-group">
-                <?php echo $account->getError('Your username must be between 5 and 25 characters.'); ?>
+                <?php echo $account->getError(Constants::$userNameCharacters); ?>
                 <label for="usernameInput">Username</label>
-                <input type="text" name="userName" class="form-control" id="usernameInput" aria-describedby="emailHelp" placeholder="Enter username" required>
+                <input type="text" name="userName" value="<?php getInputValue('userName'); ?>" class="form-control" id="usernameInput" aria-describedby="emailHelp" placeholder="Enter username" required>
             </div>
             <div class="form-group">
                 <div class="row">
                     <div class="col-md-6">
-                        <?php echo $account->getError('Your first name must be between 2 and 25 characters.'); ?>
+                        <?php echo $account->getError(Constants::$firstNameCharacters); ?>
                         <label for="firstNameInput"></label>
-                        <input class="form-control" type="text" name="firstName" id="firstNameInput" placeholder="First name">
+                        <input class="form-control" type="text" name="firstName" value="<?php getInputValue('firstName'); ?>" id="firstNameInput" placeholder="First name">
                     </div>
                     <div class="col-md-6">
-                        <?php echo $account->getError('Your last name must be between 2 and 25 characters.'); ?>
+                        <?php echo $account->getError(Constants::$lastNameCharacters); ?>
                         <label for="surnameInput"></label>
-                        <input class="form-control" type="text" name="lastName" id="surnameInput" placeholder="Surname">
+                        <input class="form-control" type="text" name="lastName" value="<?php getInputValue('lastName'); ?>" id="surnameInput" placeholder="Surname">
                     </div>
                 </div>
             </div>
             <div class="form-group">
-            <?php echo $account->getError('Your email and confirm email must be the same.'); ?>
-            <?php echo $account->getError('Your email is inivalid.'); ?>
+            <?php echo $account->getError(Constants::$emailsDontMatch); ?>
+            <?php echo $account->getError(Constants::$emailInvalid); ?>
                 <label for="exampleInputEmail2">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail2" name="email1" aria-describedby="emailHelp" placeholder="Enter email" required>
+                <input type="email" class="form-control" id="exampleInputEmail2" name="email1" value="<?php getInputValue('email1'); ?>" aria-describedby="emailHelp" placeholder="Enter email" required>
                 <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
             </div>
             <div class="form-group">
                 <label for="confirmEmail">Confirm Email</label>
-                <input type="email" class="form-control" id="confirmEmail" name="email2" aria-describedby="emailHelp" placeholder="Enter email" required>
+                <input type="email" class="form-control" id="confirmEmail" name="email2" value="<?php getInputValue('email2'); ?>" aria-describedby="emailHelp" placeholder="Enter email" required>
                 <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
             </div>
             <div class="form-group">
-                <?php echo $account->getError("Your passwords don't match ivalid."); ?>
-                <?php echo $account->getError('Your password can only contain numbers and letters.'); ?>
-                <?php echo $account->getError('Your password must be between 5 and 30 characters.'); ?>
+                <?php echo $account->getError(Constants::$passwordsDoNotMatch); ?>
+                <?php echo $account->getError(Constants::$passwordNotAlphanumeric); ?>
+                <?php echo $account->getError(Constants::$passwordCharacters); ?>
                 <label for="password1">Password</label>
                 <input type="password" class="form-control" name="password1" id="password1" placeholder="Password" required>
             </div>
