@@ -3,7 +3,7 @@
     include('includes/classes/Account.php');
     include('includes/classes/Constants.php');
 
-    $account = new Account();
+    $account = new Account($con);
 
     include('includes/handlers/register-handler.php');
     include('includes/handlers/login-handler.php');
@@ -55,12 +55,12 @@
                 <div class="row">
                     <div class="col-md-6">
                         <?php echo $account->getError(Constants::$firstNameCharacters); ?>
-                        <label for="firstNameInput"></label>
+                        <label for="firstNameInput">First name</label>
                         <input class="form-control" type="text" name="firstName" value="<?php getInputValue('firstName'); ?>" id="firstNameInput" placeholder="First name">
                     </div>
                     <div class="col-md-6">
                         <?php echo $account->getError(Constants::$lastNameCharacters); ?>
-                        <label for="surnameInput"></label>
+                        <label for="surnameInput">Last name</label>
                         <input class="form-control" type="text" name="lastName" value="<?php getInputValue('lastName'); ?>" id="surnameInput" placeholder="Surname">
                     </div>
                 </div>
