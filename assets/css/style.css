@@ -10,3 +10,20 @@ body {
 .controls img {
     width: 30px;
 }
+
+.controls .play img,
+.controls .pause img {
+    width: 40px;
+}
+
+.progress {
+    height: 5px !important;
+}
+
+.media.album-art img {
+    max-width: 100px;
+}
+
+.media .volume {
+    width: 30px;
+}
