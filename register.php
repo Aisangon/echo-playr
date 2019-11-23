@@ -48,22 +48,22 @@
         }
     ?>
 
-    <div class="container py-3">
+    <div class="container my-5 py-5">
         <div class="row">
             <div class="col-12 col-sm-6">
                 <form id="loginForm" action="register.php" method="post">
                 <h2 class="text-white">Login to your account</h2>
                     <div class="form-group">
                         <label class="text-white" for="inputUsername">Username</label>
-                        <input type="text" name="loginUsername" class="form-control" id="inputUsername" aria-describedby="emailHelp" placeholder="Enter email" required>
+                        <input type="text" name="loginUsername" value="<?php getInputValue('loginUsername'); ?>" class="form-control" id="inputUsername" aria-describedby="emailHelp" placeholder="Enter email" required>
                         <?php echo $account->getError(Constants::$loginFailed); ?>
                     </div>
                     <div class="form-group">
                         <label class="text-white" for="exampleInputPassword1">Password</label>
-                        <input type="password" name="loginPassword" class="form-control" id="exampleInputPassword1" placeholder="Password" required>
+                        <input type="password" name="loginPassword" value="<?php getInputValue('loginPassword'); ?>" class="form-control" id="exampleInputPassword1" placeholder="Password" required>
                         <?php echo $account->getError(Constants::$loginFailed); ?>
                     </div>
-                    <button type="submit" name="submitLogin" class="btn btn-primary">Log In</button>
+                    <button type="submit" name="submitLogin" class="btn btn-outline-success">Log In</button>
                     <div class="form-group mt-3">
                         <small><a id="hideLogin" class="text-white" href="javascript:void(0)">Don't have an account yet? Sign up here.</a></small>
                     </div>
@@ -112,13 +112,36 @@
                         <label class="text-white" for="password2">Confirm Password</label>
                         <input type="password" class="form-control" name="password2" id="password2" placeholder="Confirm Password" required>
                     </div>
-                    <button type="submit" name="submitSignUp" class="btn btn-primary">Sign Up</button>
+                    <button type="submit" name="submitSignUp" class="btn btn-outline-success">Sign Up</button>
                     <div class="form-group mt-3">
                         <small><a id="hideSignUp" class="text-white" href="javascript:void(0)">Already have an account? Login here.</a></small>
                     </div>
                 </form>
             </div>
             <div class="col-12 col-sm-6">
+                <div class="jumbotron">
+                    <h1 class="display-4">Welcome to Music Player.</h1>
+                    <p class="lead">Come here to listen to great music.</p>
+                    <hr class="my-4">
+                    <ul class="list-unstyled">
+                        <li class="media">
+                            <img class="mr-1" src="assets/img/icons/list-check.png" alt="features-checklist">
+                            <p class="lead">Discover new music to fall in love with.</p>
+                        </li>
+                        <li class="media">
+                            <img class="mr-1" src="assets/img/icons/list-check.png" alt="features-checklist">
+                            <p class="lead">Create your own playlists.</p>
+                        </li>
+                        <li class="media">
+                            <img class="mr-1" src="assets/img/icons/list-check.png" alt="features-checklist">
+                            <p class="lead">Follow artists to keep up to date.</p>
+                        </li>
+                    </ul>
+                    <!-- <p>Discover new music to fall in love with. Create your own playlists. Follow artists to keep up to date.</p> -->
+                    <p class="lead">
+                        <a class="btn btn-outline-success btn-lg" href="#" role="button">Learn more</a>
+                    </p>
+                </div>
             </div>
         </div>
     </div>
