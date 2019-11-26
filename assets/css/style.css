@@ -27,3 +27,8 @@ body {
 .media .volume {
     width: 30px;
 }
+
+#navbarContainer,
+#navbarContainer nav {
+    background: #000;
+}
