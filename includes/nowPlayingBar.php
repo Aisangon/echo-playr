@@ -1,3 +1,59 @@
+<?php 
+
+    $songQuery = mysqli_query($con, "SELECT * FROM songs ORDER BY RAND() LIMIT 10");
+    $resultArray = array();
+
+    while($row = mysqli_fetch_array($songQuery)) {
+        array_push($resultArray, $row['id']);
+    }
+
+    $jsonArray = json_encode($resultArray);
+
+?>
+
+<script>
+
+(function() {
+    currentPlaylist = <?php echo $jsonArray ?>;
+    audioElement = new Audio();
+    setTrack(currentPlaylist[0], currentPlaylist, false);
+})();
+
+function setTrack(trackId, newPlaylist, play) {
+    let data = `songId=${trackId}`;
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "includes/handlers/ajax/getSongJSON.php", true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.send(data);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            let track = JSON.parse(xhr.response);
+            audioElement.setTrack(track.path);
+            audioElement.play();
+        }
+    }
+
+    if(play) audioElement.play();
+}
+
+function playSong() {
+    let playButton = document.getElementById('playBtn');
+    let pauseButton = document.getElementById('pauseBtn');
+    audioElement.play();
+    playButton.style.display = "none";
+    pauseButton.style.display = "block";
+}
+
+function pauseSong() {
+    let playButton = document.getElementById('playBtn');
+    let pauseButton = document.getElementById('pauseBtn');
+    audioElement.pause();
+    playButton.style.display = "block";
+    pauseButton.style.display = "none";
+}
+
+</script>
+
 <div class="container-fluid bg-dark fixed-bottom border border-secondary">
     <div class="row h-25 p-2 align-items-center">
         <div class="col-lg-3 col-12">
@@ -19,10 +75,10 @@
                     <button class="border-0 bg-transparent" title="Previous button">
                         <img src="assets/img/icons/previous.png" alt="Previous">
                     </button>
-                    <button class="border-0 bg-transparent play" title="Play button">
+                    <button id="playBtn" class="border-0 bg-transparent play" title="Play button" onclick="playSong()">
                         <img src="assets/img/icons/play.png" alt="Play">
                     </button>
-                    <button class="border-0 bg-transparent pause d-none" title="Pause button">
+                    <button id="pauseBtn" class="border-0 bg-transparent pause" style="display: none" title="Pause button" onclick="pauseSong()">
                         <img src="assets/img/icons/pause.png" alt="Pause">
                     </button>
                     <button class="border-0 bg-transparent" title="Next button">
