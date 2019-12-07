@@ -1,12 +1,12 @@
 <div class="container-fluid bg-dark fixed-bottom border border-secondary">
-    <div class="row h-25 p-3">
+    <div class="row h-25 p-2 align-items-center">
         <div class="col-lg-3 col-12">
             <div class="media album-art">
                 <img class="align-self-start mr-3 img-thumbnail" src="assets/img/album1.jpg" alt="album1">
                 <div class="media-body">
                     <h5 class="mt-0 text-light">Top 10 artist</h5>
-                    <p class="lead text-light">My new cool song</p>
-                    <p class="text-light">My new album</p>
+                    <p class="lead text-light m-0">My new cool song</p>
+                    <p class="text-light m-0">My new album</p>
                 </div>
             </div>
         </div>
