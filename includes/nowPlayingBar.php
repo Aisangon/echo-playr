@@ -20,36 +20,60 @@
 })();
 
 function setTrack(trackId, newPlaylist, play) {
-    let data = `songId=${trackId}`;
-    let xhr = new XMLHttpRequest();
-    xhr.open("POST", "includes/handlers/ajax/getSongJSON.php", true);
-    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhr.send(data);
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4) {
-            let track = JSON.parse(xhr.response);
-            audioElement.setTrack(track.path);
-            audioElement.play();
-        }
-    }
+    const trackData = `songId=${trackId}`;
+    fetch('includes/handlers/ajax/getSongJSON.php', {
+        headers: {"Content-type": "application/x-www-form-urlencoded"},
+        method: 'POST',
+        body: trackData
+    })
+    .then(response => response.json())
+    .then(track => {
+        document.getElementById('trackName').textContent += track.title;
+
+        const artistData = `artistId=${track.artist}`;
+        fetch('includes/handlers/ajax/getArtistJSON.php', {
+            headers: {"Content-type": "application/x-www-form-urlencoded"},
+            method: 'POST',
+            body: artistData
+        })
+        .then(response => response.json())
+        .then(artist => document.getElementById('trackArtist').textContent += artist.name);
+    
+        const albumData = `albumId=${track.album}`;
+        fetch('includes/handlers/ajax/getAlbumJSON.php', {
+            headers: {"Content-type": "application/x-www-form-urlencoded"},
+            method: 'POST',
+            body: albumData
+        })
+        .then(response => response.json())
+        .then(album => document.getElementById('albumArt').src = album.artworkPath);
+
+        playSong(track);
+    });
 
     if(play) audioElement.play();
 }
 
-function playSong() {
-    let playButton = document.getElementById('playBtn');
-    let pauseButton = document.getElementById('pauseBtn');
+function playSong(track) {
+    audioElement.setTrack(track);
+    if(audioElement.audio.currentTime === 0) {
+        fetch('includes/handlers/ajax/updatePlays.php', {
+            headers: {"Content-type": "application/x-www-form-urlencoded"},
+            method: 'POST',
+            body: `songId=${audioElement.currentlyPlaying.id}`
+        });
+    } else {
+        console.log('dont update time');
+    }
+    document.getElementById('playBtn').style.display = "none";
+    document.getElementById('pauseBtn').style.display = "block";
     audioElement.play();
-    playButton.style.display = "none";
-    pauseButton.style.display = "block";
 }
 
 function pauseSong() {
-    let playButton = document.getElementById('playBtn');
-    let pauseButton = document.getElementById('pauseBtn');
+    document.getElementById('playBtn').style.display = "block";
+    document.getElementById('pauseBtn').style.display = "none";
     audioElement.pause();
-    playButton.style.display = "block";
-    pauseButton.style.display = "none";
 }
 
 </script>
@@ -58,11 +82,10 @@ function pauseSong() {
     <div class="row h-25 p-2 align-items-center">
         <div class="col-lg-3 col-12">
             <div class="media album-art">
-                <img class="align-self-start mr-3 img-thumbnail" src="assets/img/album1.jpg" alt="album1">
+                <img id="albumArt" src="" class="align-self-start mr-3 img-thumbnail" alt="album1">
                 <div class="media-body">
-                    <h5 class="mt-0 text-light">Top 10 artist</h5>
-                    <p class="lead text-light m-0">My new cool song</p>
-                    <p class="text-light m-0">My new album</p>
+                    <h5 id="trackName" class="text-light m-0"></h5>
+                    <p id="trackArtist" class="lead text-light mt-0"></p>
                 </div>
             </div>
         </div>
