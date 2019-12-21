@@ -1,5 +1,8 @@
 let currentPlaylist = [];
 let audioElement = null;
+let mouseDown = false;
+let currentIndex = 0;
+let repeat = false;
 
 class Audio {
 
@@ -7,14 +10,23 @@ class Audio {
         this.currentlyPlaying = null;
         this.audio = document.createElement('audio');
         const self = this;
+
+        this.audio.addEventListener('ended', function() {
+            nextSong();
+        });
         
         this.audio.addEventListener('canplay', function() {
             const formattedDuration = self.formatTime(this.duration);
-            document.getElementById('remainingTime').innerHTML += formattedDuration;
+            document.getElementById('remainingTime').innerHTML = formattedDuration;
+            self.updateVolumeProgressBar(this);
         });
 
         this.audio.addEventListener('timeupdate', function() {
             if(this.duration) self.updateTimeProgressBar(this);
+        });
+
+        this.audio.addEventListener('volumechange', function() {
+            self.updateVolumeProgressBar(this);
         });
     }
 
@@ -40,8 +52,17 @@ class Audio {
 
     updateTimeProgressBar(currentAudio) {
         document.getElementById('currentTime').innerHTML = this.formatTime(currentAudio.currentTime);
-        const progress = JSON.stringify(currentAudio.currentTime / currentAudio.duration * 100);
-        document.getElementById('audioProgress').style.width = `${progress}%`;
+        const timeProgress = JSON.stringify(currentAudio.currentTime / currentAudio.duration * 100);
+        document.getElementById('audioProgress').style.width = `${timeProgress}%`;
+    }
+
+    updateVolumeProgressBar(audio) {
+        const volumeProgress = JSON.stringify(audio.volume * 100);
+        document.getElementById('volumeProgress').style.width = `${volumeProgress}%`;
+    }
+
+    setTime(seconds) {
+        this.audio.currentTime = seconds;
     }
 
 }

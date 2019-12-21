@@ -54,3 +54,11 @@ body {
 .trackListRow:hover .media h5 {
     visibility: hidden;
 }
+
+.progress {
+    cursor: pointer;
+}
+
+.progress-bar {
+    transition: none !important;
+}
