@@ -11,73 +11,6 @@
 
 ?>
 
-<script>
-
-(function() {
-    currentPlaylist = <?php echo $jsonArray ?>;
-    audioElement = new Audio();
-    setTrack(currentPlaylist[0], currentPlaylist, false);
-})();
-
-function setTrack(trackId, newPlaylist, play) {
-    const trackData = `songId=${trackId}`;
-    fetch('includes/handlers/ajax/getSongJSON.php', {
-        headers: {"Content-type": "application/x-www-form-urlencoded"},
-        method: 'POST',
-        body: trackData
-    })
-    .then(response => response.json())
-    .then(track => {
-        document.getElementById('trackName').textContent += track.title;
-
-        const artistData = `artistId=${track.artist}`;
-        fetch('includes/handlers/ajax/getArtistJSON.php', {
-            headers: {"Content-type": "application/x-www-form-urlencoded"},
-            method: 'POST',
-            body: artistData
-        })
-        .then(response => response.json())
-        .then(artist => document.getElementById('trackArtist').textContent += artist.name);
-    
-        const albumData = `albumId=${track.album}`;
-        fetch('includes/handlers/ajax/getAlbumJSON.php', {
-            headers: {"Content-type": "application/x-www-form-urlencoded"},
-            method: 'POST',
-            body: albumData
-        })
-        .then(response => response.json())
-        .then(album => document.getElementById('albumArt').src = album.artworkPath);
-
-        playSong(track);
-    });
-
-    if(play) audioElement.play();
-}
-
-function playSong(track) {
-    audioElement.setTrack(track);
-    if(audioElement.audio.currentTime === 0) {
-        fetch('includes/handlers/ajax/updatePlays.php', {
-            headers: {"Content-type": "application/x-www-form-urlencoded"},
-            method: 'POST',
-            body: `songId=${audioElement.currentlyPlaying.id}`
-        });
-    } else {
-        console.log('dont update time');
-    }
-    document.getElementById('playBtn').style.display = "none";
-    document.getElementById('pauseBtn').style.display = "block";
-    audioElement.play();
-}
-
-function pauseSong() {
-    document.getElementById('playBtn').style.display = "block";
-    document.getElementById('pauseBtn').style.display = "none";
-    audioElement.pause();
-}
-
-</script>
-
 <div class="container-fluid bg-dark fixed-bottom border border-secondary">
     <div class="row h-25 p-2 align-items-center">
         <div class="col-lg-3 col-12">
@@ -113,10 +46,10 @@ function pauseSong() {
                 </div>
             </div>
             <div class="col-12 mt-3">
-                <span class="text-light float-left mt-2">0.00</span>
-                <span class="text-light float-right mt-2">0.00</span>
+                <span id="currentTime" class="text-light float-left mt-2">0:00</span>
+                <span id="remainingTime" class="text-light float-right mt-2"></span>
                 <div class="progress">
-                    <div class="progress-bar bg-light" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div id="audioProgress" class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
             </div>
         </div>
@@ -127,10 +60,77 @@ function pauseSong() {
                 </button>
                 <div class="media-body align-self-center">
                     <div class="progress">
-                        <div class="progress-bar bg-light" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+
+    (function() {
+        currentPlaylist = <?php echo $jsonArray ?>;
+        audioElement = new Audio();
+        setTrack(currentPlaylist[0], currentPlaylist, false);
+    })();
+
+    function setTrack(trackId, newPlaylist, play) {
+        const trackData = `songId=${trackId}`;
+        fetch('includes/handlers/ajax/getSongJSON.php', {
+            headers: {"Content-type": "application/x-www-form-urlencoded"},
+            method: 'POST',
+            body: trackData
+        })
+        .then(response => response.json())
+        .then(track => {
+            document.getElementById('trackName').textContent += track.title;
+
+            const artistData = `artistId=${track.artist}`;
+            fetch('includes/handlers/ajax/getArtistJSON.php', {
+                headers: {"Content-type": "application/x-www-form-urlencoded"},
+                method: 'POST',
+                body: artistData
+            })
+            .then(response => response.json())
+            .then(artist => document.getElementById('trackArtist').textContent += artist.name);
+        
+            const albumData = `albumId=${track.album}`;
+            fetch('includes/handlers/ajax/getAlbumJSON.php', {
+                headers: {"Content-type": "application/x-www-form-urlencoded"},
+                method: 'POST',
+                body: albumData
+            })
+            .then(response => response.json())
+            .then(album => document.getElementById('albumArt').src = album.artworkPath);
+
+            audioElement.setTrack(track);
+            playSong();
+        });
+
+        if(play == true) audioElement.play();
+    }
+
+    function playSong() {
+        if(audioElement.audio.currentTime === 0) {
+            fetch('includes/handlers/ajax/updatePlays.php', {
+                headers: {"Content-type": "application/x-www-form-urlencoded"},
+                method: 'POST',
+                body: `songId=${audioElement.currentlyPlaying.id}`
+            });
+        } else {
+            console.log('dont update time');
+        }
+        document.getElementById('playBtn').style.display = "none";
+        document.getElementById('pauseBtn').style.display = "block";
+        audioElement.play();
+    }
+
+    function pauseSong() {
+        document.getElementById('playBtn').style.display = "block";
+        document.getElementById('pauseBtn').style.display = "none";
+        audioElement.pause();
+    }
+
+</script>
