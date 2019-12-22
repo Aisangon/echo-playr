@@ -25,10 +25,10 @@
         <div class="col-lg-6 col-12">
             <div class="col-12">
                 <div class="controls media justify-content-around">
-                    <button class="border-0 bg-transparent" title="Shuffle button">
+                    <button class="border-0 bg-transparent shuffle" title="Shuffle button" onclick="shuffleSongs()">
                         <img src="assets/img/icons/shuffle.png" alt="Shuffle">
                     </button>
-                    <button class="border-0 bg-transparent" title="Previous button">
+                    <button class="border-0 bg-transparent" title="Previous button" onclick="prevSong()">
                         <img src="assets/img/icons/previous.png" alt="Previous">
                     </button>
                     <button id="playBtn" class="border-0 bg-transparent play" title="Play button" onclick="playSong()">
@@ -40,7 +40,7 @@
                     <button class="border-0 bg-transparent" title="Next button" onclick="nextSong()">
                         <img src="assets/img/icons/next.png" alt="Next">
                     </button>
-                    <button class="border-0 bg-transparent repeat" title="Repeat button" onclick="setRepeatSong()">
+                    <button class="border-0 bg-transparent repeat" title="Repeat button" onclick="repeatSong()">
                         <img src="assets/img/icons/repeat.png" alt="Repeat">
                     </button>
                 </div>
@@ -55,7 +55,7 @@
         </div>
         <div class="col-lg-3 col-12 align-self-center">
             <div class="media">
-                <button class="border-0 bg-transparent" title="Volume button">
+                <button class="border-0 bg-transparent" title="Volume button" onclick="muteSong()">
                     <img class="align-self-end mr-3 volume" src="assets/img/icons/volume.png" alt="Volume-on">
                 </button>
                 <div class="media-body align-self-center">
@@ -71,9 +71,9 @@
 <script>
 
     document.addEventListener("DOMContentLoaded", function() {
-        currentPlaylist = <?php echo $jsonArray ?>;
+        let newPlaylist = <?php echo $jsonArray ?>;
         audioElement = new Audio();
-        setTrack(currentPlaylist[0], currentPlaylist, false);
+        setTrack(newPlaylist[0], newPlaylist, false);
         const progressDrag = document.querySelector('.progress.audio');
         const volumeDrag = document.querySelector('.progress.volumeBar');
 
@@ -129,6 +129,15 @@
         audioElement.setTime(seconds);
     }
 
+    function prevSong() {
+        if(audioElement.audio.currentTime >= 3 || currentIndex === 0) {
+            audioElement.setTime(0);
+        } else {
+            currentIndex--;
+            setTrack(currentPlaylist[currentIndex], currentPlaylist, true);
+        }
+    }
+
     function nextSong() {
         if(repeat === true) {
             audioElement.setTime(0);
@@ -142,18 +151,59 @@
             currentIndex++;
         }
 
-        const trackToPlay = currentPlaylist[currentIndex];
+        const trackToPlay = shuffle ? shufflePlaylist[currentIndex] : currentPlaylist[currentIndex];
         setTrack(trackToPlay, currentPlaylist, true);
     }
 
-    function setRepeatSong() {
+    function repeatSong() {
         repeat = !repeat;
-        const imageName = repeat ? 'repeat-active.png' : 'repeat.png';
-        document.querySelector('.controls .repeat img').src = `assets/img/icons/${imageName}`;
+        const repeatIcon = repeat ? 'repeat-active.png' : 'repeat.png';
+        document.querySelector('.controls .repeat img').src = `assets/img/icons/${repeatIcon}`;
+    }
+
+    function muteSong() {
+        audioElement.audio.muted = !audioElement.audio.muted;
+        const volumeLevel = document.getElementById('volumeProgress');
+        audioElement.audio.muted ? volumeLevel.style.display = "none" : volumeLevel.style.display = "block";
+        const volumeIcon = audioElement.audio.muted ? 'volume-mute.png' : 'volume.png';
+        document.querySelector('.media img.volume').src = `assets/img/icons/${volumeIcon}`;
+    }
+
+    function shuffleSongs() {
+        shuffle = !shuffle;
+        const shuffleIcon = shuffle ? 'shuffle-active.png' : 'shuffle.png';
+        document.querySelector('.controls .shuffle img').src = `assets/img/icons/${shuffleIcon}`;
+
+        if(shuffle === true) {
+            doShuffle(shufflePlaylist);
+            currentIndex = shufflePlaylist.indexOf(audioElement.currentlyPlaying.id);
+        } else {
+            currentIndex = currentPlaylist.indexOf(audioElement.currentlyPlaying.id);
+        }
+    }
+
+    function doShuffle(array) {
+        for(let i = array.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            let x = array[i];
+            array[i] = array[j];
+            array[j] = x;
+        }
+        return array;
     }
 
     function setTrack(trackId, newPlaylist, play) {
-        currentIndex = currentPlaylist.indexOf(trackId);
+        if(newPlaylist !== currentPlaylist) {
+            currentPlaylist = newPlaylist;
+            shufflePlaylist = currentPlaylist.slice();
+            doShuffle(shufflePlaylist);
+        }
+
+        if(shuffle === true) {
+            currentIndex = shufflePlaylist.indexOf(trackId);
+        } else {
+            currentIndex = currentPlaylist.indexOf(trackId);
+        }
         pauseSong();
 
         const trackData = `songId=${trackId}`;
