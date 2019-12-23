@@ -8,6 +8,7 @@
 
     if(isset($_SESSION['userLoggedIn'])) {
         $userLoggedIn = $_SESSION['userLoggedIn'];
+        echo "<script>let userLoggedIn = '$userLoggedIn';</script>";
     } else {
         header("Location: register.php");
     }
@@ -28,5 +29,5 @@
             <div class="row">
                 <!-- Sidebar Container -->
                 <?php include('includes/navbarContainer.php'); ?>
-                <div class="col-lg-10 offset-lg-2">
+                <div class="col-lg-10 offset-lg-2" id="main-content">
                     <section class="container-fluid">

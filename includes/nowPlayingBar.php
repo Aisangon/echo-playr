@@ -235,7 +235,6 @@
             .then(album => document.getElementById('albumArt').src = album.artworkPath);
 
             audioElement.setTrack(track);
-            playSong();
         });
 
         if(play === true) audioElement.play();

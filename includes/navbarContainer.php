@@ -1,8 +1,8 @@
 <div id="navbarContainer" class="col-lg-2 vh-100 position-fixed border border-secondary border-left-0 border-right-0">
     <nav class="navbar navbar-light">
-        <a class="navbar-brand" href="/not-spotify/register.php">
+        <span class="navbar-brand" onclick="openPage('index.php')">
             <img src="assets/img/icons/audio-wave.png" alt="">
-        </a>
+        </span>
     </nav>
     <div class="col-12">
         <div class="input-group mb-3">
