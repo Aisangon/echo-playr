@@ -7,19 +7,19 @@ let currentIndex = 0;
 let repeat = false;
 let shuffle = false;
 
-function openPage(url) {
-    if(!url.includes('?')) {
-        url = url + "?";
-    }
-    let encodedUrl = encodeURI(`${url}&userLoggedin=${userLoggedIn}`);
-    fetch(encodedUrl)
-    .then(response => {
-        return response.text();
-    })
-    .then(body => {
-        document.querySelector('#main-content').innerHTML = body.split("main-content\">")[1];
-    });
-}
+// function openPage(url) {
+//     if(!url.includes('?')) {
+//         url = url + "?";
+//     }
+//     let encodedUrl = encodeURI(`${url}&userLoggedin=${userLoggedIn}`);
+//     fetch(encodedUrl)
+//     .then(response => {
+//         return response.text();
+//     })
+//     .then(body => {
+//         document.querySelector('#main-content').innerHTML = body.split("main-content\">")[1];
+//     });
+// }
 
 class Audio {
     
