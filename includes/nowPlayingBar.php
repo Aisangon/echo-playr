@@ -15,10 +15,16 @@
     <div class="row h-25 p-2 align-items-center">
         <div class="col-lg-3 col-12">
             <div class="media album-art">
-                <img id="albumArt" src="" class="align-self-start mr-3 img-thumbnail" alt="album1">
+                <a id="trackImg" href="" class="text-decoration-none">
+                    <img id="albumArt" src="" class="align-self-start mr-3 img-thumbnail" alt="album1">
+                </a>
                 <div class="media-body">
-                    <h5 id="trackName" class="text-light m-0"></h5>
-                    <p id="trackArtist" class="lead text-light mt-0"></p>
+                    <h5 class="m-0">
+                        <a id="trackName" href="" class="text-decoration-none text-light"></a>
+                    </h5>
+                    <p class="lead mt-0">
+                        <a id="trackArtist" href="" class="text-decoration-none text-light"></a>
+                    </p>
                 </div>
             </div>
         </div>
@@ -223,7 +229,11 @@
                 body: artistData
             })
             .then(response => response.json())
-            .then(artist => document.getElementById('trackArtist').innerHTML = artist.name);
+            .then(artist => {
+                let artistLinks = ['#trackImg','#trackName','#trackArtist'];
+                Array.from(artistLinks).forEach(link => document.querySelector(link).href = `artist.php?id=${artist.id}`);
+                document.getElementById('trackArtist').innerHTML = artist.name;
+            });
         
             const albumData = `albumId=${track.album}`;
             fetch('includes/handlers/ajax/getAlbumJSON.php', {
@@ -235,7 +245,7 @@
             .then(album => document.getElementById('albumArt').src = album.artworkPath);
 
             audioElement.setTrack(track);
-            if(play === true) audioElement.play();
+            if(play === true) playSong();
         });
 
     }
