@@ -21,6 +21,20 @@ let shuffle = false;
 //     });
 // }
 
+function createPlaylist() {
+    let popup = prompt('Please enter the name of your playlist');
+    if(popup !== null) {
+        const data = `name=${popup}&username=${userLoggedIn}`;
+        fetch('includes/handlers/ajax/createPlaylist.php', {
+            headers: {"Content-type": "application/x-www-form-urlencoded"},
+            method: 'POST',
+            body: data
+        })
+        .then(location.reload())
+        .catch(err => alert(err));
+    }
+}
+
 class Audio {
     
     constructor() {

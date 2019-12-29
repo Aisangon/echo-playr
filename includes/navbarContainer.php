@@ -4,15 +4,10 @@
             <img src="assets/img/icons/audio-wave.png" alt="">
         </a>
     </nav>
-    <div class="col-12">
-        <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="search-addon">
-            <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button">
-                    <img width="20" src="assets/img/icons/search.png" alt="">
-                </button>
-            </div>
-        </div>
+    <div class="col-12 mb-3">
+        <a class="btn btn-outline-secondary btn-sm btn-block" role="button" href="search.php">
+            <img width="20" src="assets/img/icons/search.png" alt=""> Search
+        </a>
     </div>
     <hr class="bg-light">
     <div class="col-12 mb-3">
