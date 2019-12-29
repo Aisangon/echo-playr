@@ -35,6 +35,21 @@ function createPlaylist() {
     }
 }
 
+function deletePlaylist(playlistId) {
+    let confirmPopup = confirm('Are you sure you want to delete this playlist?');
+
+    if(confirmPopup === true) {
+        const deleteData = `playlistId=${playlistId}`;
+        fetch('includes/handlers/ajax/deletePlaylist.php', {
+            headers: {"Content-type": "application/x-www-form-urlencoded"},
+            method: 'POST',
+            body: deleteData
+        })
+        .then(window.location.href = 'yourMusic.php')
+        .catch(err => alert(err));
+    }
+}
+
 class Audio {
     
     constructor() {

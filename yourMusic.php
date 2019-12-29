@@ -18,8 +18,8 @@
         while($row = mysqli_fetch_array($playlistQuery)) {
             $playlist = new Playlist($con, $row);
             echo "<div class='col-2 mb-3'>
-                    <div class='card bg-dark border-secondary'>
-                        <a class='text-decoration-none' href='album.php?id={$row['id']}'>
+                    <div class='card bg-dark border-light'>
+                        <a class='text-decoration-none' href='playlist.php?id={$playlist->getId()}'>
                             <img class='card-img-top' src='assets/img/icons/playlist.png'>
                             <div class='card-body p-1 bg-light'>
                                 <p class='card-text text-center text-dark text-truncate'>{$playlist->getName()}</p>
