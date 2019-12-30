@@ -37,14 +37,23 @@
 
                     echo "<li class='trackListRow p-1'>
                     <div class='media'>
-                        <img src='assets/img/icons/play-white.png' onclick='setTrack(\"". $playlistSong->getId() ."\", tempPlaylist, true)'>
+                        <img class='position-absolute' src='assets/img/icons/play-white.png' onclick='setTrack({$playlistSong->getId()}, tempPlaylist, true)'>
                         <h5 class='text-light'>$i</h5>
                         <div class='media-body ml-4'>
-                            <p class='text-light m-0'>" . $songArtist->getName() . "</p>
-                            <p class='text-muted m-0'>" . $playlistSong->getTitle() . "</p>
+                            <p class='text-light m-0'>{$songArtist->getName()}</p>
+                            <p class='text-muted m-0'>{$playlistSong->getTitle()}</p>
                         </div>
-                        <img class='mr-5' src='assets/img/icons/more.png'>
-                        <span class='text-light'>" . $playlistSong->getDuration() . "</span>
+                        <div class='dropdown addToPlaylist'>
+                            <input class='albumSongId' type='hidden' value='{$playlistSong->getId()}'>
+                            <img class='mr-5 dropdown-toggle' src='assets/img/icons/more.png' data-toggle='dropdown'>
+                            <ul class='dropdown-menu dropdown-menu-right'>
+                            <input type='hidden' class='songId'></input>"
+                            . Playlist::getPlaylistsDropdown($con, $loggedInUser) .
+                            "<div class='dropdown-divider'></div>
+                            <li class='dropdown-item text-danger deletePlaylist' onclick='removeFromPlaylist(this, {$playlistId})'>Remove from playlist</li>
+                            </ul>
+                        </div>
+                        <span class='text-light'>{$playlistSong->getDuration()}</span>
                     </div>
                     </li>";
 

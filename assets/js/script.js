@@ -21,6 +21,38 @@ let shuffle = false;
 //     });
 // }
 
+document.addEventListener("DOMContentLoaded", function() {
+    let addPlaylistItem = document.querySelectorAll('.addToPlaylist');
+
+        Array.from(addPlaylistItem).forEach(item => {
+            item.addEventListener('click', function() {
+                var playlistId = this.dataset.id;
+                var albumSongValue = $(this).parents().siblings().closest('.albumSongId').val();
+    
+                var playlistData = `playlistId=${playlistId}&songId=${albumSongValue}`;
+                fetch('includes/handlers/ajax/addToPlaylist.php', {
+                    headers: {"Content-type": "application/x-www-form-urlencoded"},
+                    method: 'POST',
+                    body: playlistData
+                })
+                .catch(err => alert(err));
+            });
+        });
+});
+
+function removeFromPlaylist(element, playlistId) {
+    var albumSongValue = $(element).parents().siblings().closest('.albumSongId').val();
+    var playlistData = `playlistId=${playlistId}&songId=${albumSongValue}`;
+
+    fetch('includes/handlers/ajax/removeFromPlaylist.php', {
+        headers: {"Content-type": "application/x-www-form-urlencoded"},
+        method: 'POST',
+        body: playlistData
+    })
+    .then(location.reload())
+    .catch(err => alert(err));
+}
+
 function createPlaylist() {
     let popup = prompt('Please enter the name of your playlist');
     if(popup !== null) {

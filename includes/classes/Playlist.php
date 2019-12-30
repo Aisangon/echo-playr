@@ -44,5 +44,18 @@
             }
             return $array;
         }
+
+        public static function getPlaylistsDropdown($con, $username) {
+            $dropdown = "<li class='dropdown-header'>
+                            Add to playlist
+                        </li>";
+            $query = mysqli_query($con, "SELECT id, name FROM playlists WHERE owner='$username'");
+            while($row = mysqli_fetch_array($query)) {
+                $id = $row['id'];
+                $name = $row['name'];
+                $dropdown = $dropdown . "<li class='dropdown-item addToPlaylist' data-id='$id'>$name</li>";
+            }
+            return $dropdown;
+        }
     }
 ?>
