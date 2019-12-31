@@ -10,10 +10,11 @@
                 </div>
                 <div class="form-group">
                     <label for="changeEmail" class="col-form-label text-light">Change Email</label>
-                    <input type="email" class="form-control text-light" id="changeEmail" aria-describedby="emailHelp" placeholder="Enter email">
+                    <input type="email" class="form-control" id="changeEmail" aria-describedby="emailHelp" placeholder="Enter email">
                     <small id="emailHelp" class="form-text text-success"></small>
+                    <small id="emailError" class="form-text text-danger"></small>
                 </div>
-                <button type="button" class="btn btn-info float-right" onclick="">Update Email</button>
+                <button type="button" class="btn btn-info float-right" onclick="updateEmail()">Update Email</button>
             </form>
         </div>
         <div class="col-6">

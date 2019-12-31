@@ -91,8 +91,14 @@ function updateEmail() {
         method: 'POST',
         body: emailData
     })
-    .then($('#emailHelp').text("Updated Successfully"))
-    .catch(err => alert(err));
+    .then(response => {
+        if(!response.ok) {
+            $('#emailError').text(response.statusText)
+        } else {
+            $('#emailHelp').text('Updated successfully');
+        }
+    })
+    .catch(err => $('#emailError').text(err));
 }
 
 function logout() {
