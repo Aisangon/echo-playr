@@ -17,6 +17,6 @@
         <a class="btn btn-outline-success btn-sm btn-block" role="button" href="yourMusic.php">Your Music</a>
     </div>
     <div class="col-12 mb-3">
-        <a class="btn btn-outline-success btn-sm btn-block" role="button" href="profile.php">Your Profile</a>
+        <a class="btn btn-outline-success btn-sm btn-block" role="button" href="settings.php">Settings</a>
     </div>
 </div>

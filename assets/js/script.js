@@ -82,6 +82,28 @@ function deletePlaylist(playlistId) {
     }
 }
 
+function updateEmail() {
+    let emailValue = document.getElementById('changeEmail').value;
+
+    const emailData = `email=${emailValue}&username=${userLoggedIn}`;
+    fetch('includes/handlers/ajax/updateEmail.php', {
+        headers: {"Content-type": "application/x-www-form-urlencoded"},
+        method: 'POST',
+        body: emailData
+    })
+    .then($('#emailHelp').text("Updated Successfully"))
+    .catch(err => alert(err));
+}
+
+function logout() {
+    fetch('includes/handlers/ajax/logout.php', {
+        headers: {"Content-type": "application/x-www-form-urlencoded"},
+        method: 'POST'
+    })
+    .then(location.reload())
+    .catch(err => alert(err));
+}
+
 class Audio {
     
     constructor() {
