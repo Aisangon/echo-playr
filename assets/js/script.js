@@ -91,14 +91,25 @@ function updateEmail() {
         method: 'POST',
         body: emailData
     })
-    .then(response => {
-        if(!response.ok) {
-            $('#emailError').text(response.statusText)
-        } else {
-            $('#emailHelp').text('Updated successfully');
-        }
-    })
+    .then(response => response.text())
+    .then(responseText => $('#emailHelp').text(responseText))
     .catch(err => $('#emailError').text(err));
+}
+
+function updatePassword() {
+    let currentPassword = document.getElementById('currentPassword').value;
+    let newPassword = document.getElementById('newPassword').value;
+    let confirmPassword = document.getElementById('confirmPassword').value;
+
+    const passwordData = `oldPassword=${currentPassword}&newPassword=${newPassword}&confirmPassword=${confirmPassword}&username=${userLoggedIn}`;
+    fetch('includes/handlers/ajax/updatePassword.php', {
+        headers: {"Content-type": "application/x-www-form-urlencoded"},
+        method: 'POST',
+        body: passwordData
+    })
+    .then(response => response.text())
+    .then(responseText => $('#passHelp').text(responseText))
+    .catch(err => $('#passFail').text(err));
 }
 
 function logout() {

@@ -21,17 +21,19 @@
             <form class="mt-5" action="">
                 <div class="form-group">
                     <label for="currentPassword" class="text-light">Current Password</label>
-                    <input type="password" class="form-control text-light" id="currentPassword" placeholder="Password">
+                    <input type="password" class="form-control" id="currentPassword" placeholder="Password">
                 </div>
                 <div class="form-group">
-                    <label for="newPassword" class="text-light">Current Password</label>
-                    <input type="password" class="form-control text-light" id="newPassword" placeholder="Password">
+                    <label for="newPassword" class="text-light">New Password</label>
+                    <input type="password" class="form-control" id="newPassword" placeholder="Password">
                 </div>
                 <div class="form-group">
-                    <label for="confirmPassword" class="text-light">Current Password</label>
-                    <input type="password" class="form-control text-light" id="confirmPassword" placeholder="Password">
+                    <label for="confirmPassword" class="text-light">Confirm Password</label>
+                    <input type="password" class="form-control" id="confirmPassword" placeholder="Password">
+                    <small id="passHelp" class="form-text text-success"></small>
+                    <small id="passFail" class="form-text text-danger"></small>
                 </div>
-                <button type="button" class="btn btn-info float-right" onclick="">Update Pasword</button>
+                <button type="button" class="btn btn-info float-right" onclick="updatePassword()">Update Pasword</button>
             </form>
         </div>
     </div>
