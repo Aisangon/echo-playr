@@ -29,10 +29,10 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <script src="assets/js/script.js"></script>
     </head>
-    <body class="bg-dark border border-secondary">
+    <body class="bg-dark border border-secondary overflow-hidden">
         <div class="container-fluid">
             <div class="row">
                 <!-- Sidebar Container -->
                 <?php include('includes/navbarContainer.php'); ?>
-                <div class="col-lg-10 offset-lg-2" id="main-content">
+                <div id="main-content" class="col-lg-10 offset-lg-2">
                     <section class="container-fluid">
